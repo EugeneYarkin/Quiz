@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Quiz</string>
+    <string name="app_name">Викторина</string>
     <string name="question_text">Канберра -- это столица Австралии.</string>
     <string name="true_button">Правда</string>
     <string name="false_button">Ложь</string>
