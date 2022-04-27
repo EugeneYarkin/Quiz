@@ -42,12 +42,10 @@ class MainActivity : AppCompatActivity() {
         questionTextView = findViewById(R.id.question_text_view)
         updateQuestion()
         trueButton.setOnClickListener { view: View ->
-            toastCorrect.setGravity(Gravity.TOP, 0, 0)
-            toastCorrect.show()
+            checkAnswer(true)
         }
         falseButton.setOnClickListener { view: View ->
-            toastIncorrect.setGravity(Gravity.TOP, 0, 0)
-            toastIncorrect.show()
+            checkAnswer(false)
         }
         nextButton.setOnClickListener {
             currentIndex = (currentIndex + 1) % questionBank.size //интересно реализован цикл
@@ -55,8 +53,19 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-            private fun updateQuestion() {
-            val questionTextResId = questionBank[currentIndex].textResId
-            questionTextView.setText(questionTextResId)
+    private fun updateQuestion() {
+        val questionTextResId = questionBank[currentIndex].textResId
+        questionTextView.setText(questionTextResId)
+    }
+    private fun checkAnswer(userAnswer: Boolean) {
+        val correctAnswer = questionBank[currentIndex].answer
+        val messageResId = if (userAnswer == correctAnswer) {
+            R.string.correct_toast
+        } else {
+            R.string.incorrect_toast
         }
+        Toast.makeText(this, messageResId,
+            Toast.LENGTH_SHORT)
+            .show()
+    }
 }
