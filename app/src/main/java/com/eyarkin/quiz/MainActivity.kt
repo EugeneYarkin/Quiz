@@ -26,16 +26,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val toastCorrect = Toast.makeText(this,
+        val toastCorrect = Toast.makeText(
+            this,
             R.string.correct_toast,
-            Toast.LENGTH_SHORT)
-        val toastIncorrect = Toast.makeText(this,
+            Toast.LENGTH_SHORT
+        )
+        val toastIncorrect = Toast.makeText(
+            this,
             R.string.incorrect_toast,
-            Toast.LENGTH_SHORT)
+            Toast.LENGTH_SHORT
+        )
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
         questionTextView = findViewById(R.id.question_text_view)
+        updateQuestion()
         trueButton.setOnClickListener { view: View ->
             toastCorrect.setGravity(Gravity.TOP, 0, 0)
             toastCorrect.show()
@@ -46,10 +51,12 @@ class MainActivity : AppCompatActivity() {
         }
         nextButton.setOnClickListener {
             currentIndex = (currentIndex + 1) % questionBank.size //интересно реализован цикл
+            updateQuestion()
+        }
+
+    }
+            private fun updateQuestion() {
             val questionTextResId = questionBank[currentIndex].textResId
             questionTextView.setText(questionTextResId)
         }
-        val questionTextResId = questionBank[currentIndex].textResId
-        questionTextView.setText(questionTextResId)
-    }
 }
