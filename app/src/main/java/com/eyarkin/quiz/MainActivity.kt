@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             R.string.incorrect_toast,
             Toast.LENGTH_SHORT
         )
-        backButton = findViewById(R.id.back_button)
+        backButton = findViewById(R.id.prev_button)
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         questionTextView.setText(questionTextResId)
     }
     private fun checkAnswer(userAnswer: Boolean) {
-        val correctAnswer = questionBank[currentNextIndex].answer
+        val correctAnswer = questionBank[currentIndex].answer
         val messageResId = if (userAnswer == correctAnswer) {
             R.string.correct_toast
         } else {

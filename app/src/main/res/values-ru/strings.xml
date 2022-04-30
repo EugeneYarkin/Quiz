@@ -6,7 +6,7 @@
     <string name="question_africa">Источник реки Нил находится в Египте.</string>
     <string name="question_americas">Река Амазонка является самой длинной рекой Америки.</string>
     <string name="question_asia">Озеро Байкал является самым старым и глубоким с пресной водой озером в Мире.</string>
-    <string name="back_button">Назад</string>
+    <string name="prev_button">Назад</string>
     <string name="true_button">Правда</string>
     <string name="false_button">Ложь</string>
     <string name="next_button">Далее</string>
