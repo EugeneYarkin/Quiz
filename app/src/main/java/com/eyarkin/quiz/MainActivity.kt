@@ -47,6 +47,10 @@ class MainActivity : AppCompatActivity() {
         nextButton = findViewById(R.id.next_button)
         questionTextView = findViewById(R.id.question_text_view)
         updateQuestion(currentIndex)
+        questionTextView.setOnClickListener {view: View ->
+            currentIndex = (currentIndex + 1) % questionBank.size //интересно реализован цикл
+            updateQuestion(currentIndex)
+        }
         backButton.setOnClickListener {view: View ->
             currentIndex = currentIndex - 1
             if (currentIndex <0) {
