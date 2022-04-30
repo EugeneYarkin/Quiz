@@ -46,17 +46,17 @@ class MainActivity : AppCompatActivity() {
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
         questionTextView = findViewById(R.id.question_text_view)
-        updateQuestion(currentIndex)
+        updateQuestion()
         questionTextView.setOnClickListener {view: View ->
             currentIndex = (currentIndex + 1) % questionBank.size //интересно реализован цикл
-            updateQuestion(currentIndex)
+            updateQuestion()
         }
         backButton.setOnClickListener {view: View ->
             currentIndex = currentIndex - 1
             if (currentIndex <0) {
                 currentIndex = questionBank.size-1
             }
-            updateQuestion(currentIndex)
+            updateQuestion()
         }
         trueButton.setOnClickListener { view: View ->
             checkAnswer(true)
@@ -66,12 +66,12 @@ class MainActivity : AppCompatActivity() {
         }
         nextButton.setOnClickListener {view: View ->
             currentIndex = (currentIndex + 1) % questionBank.size //интересно реализован цикл
-            updateQuestion(currentIndex)
+            updateQuestion()
         }
 
     }
-    private fun updateQuestion(bankIndex: Int) {
-        val questionTextResId = questionBank[bankIndex].textResId
+    private fun updateQuestion() {
+        val questionTextResId = questionBank[currentIndex].textResId
         questionTextView.setText(questionTextResId)
     }
     private fun checkAnswer(userAnswer: Boolean) {
