@@ -8,9 +8,12 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import kotlin.math.abs
+import kotlin.math.sqrt
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var backButton: Button
     private lateinit var trueButton: Button
     private lateinit var falseButton: Button
     private lateinit var nextButton: Button
@@ -23,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         Question(R.string.question_americas, true),
         Question(R.string.question_asia, true))
     private var currentIndex = 0
+    private var currentNextIndex = 0
+    private var currentBackIndex = questionBank.size
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,29 +41,37 @@ class MainActivity : AppCompatActivity() {
             R.string.incorrect_toast,
             Toast.LENGTH_SHORT
         )
+        backButton = findViewById(R.id.back_button)
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
         questionTextView = findViewById(R.id.question_text_view)
-        updateQuestion()
+        updateQuestion(currentIndex)
+        backButton.setOnClickListener {view: View ->
+            currentIndex = currentIndex - 1
+            if (currentIndex <0) {
+                currentIndex = questionBank.size-1
+            }
+            updateQuestion(currentIndex)
+        }
         trueButton.setOnClickListener { view: View ->
             checkAnswer(true)
         }
         falseButton.setOnClickListener { view: View ->
             checkAnswer(false)
         }
-        nextButton.setOnClickListener {
+        nextButton.setOnClickListener {view: View ->
             currentIndex = (currentIndex + 1) % questionBank.size //интересно реализован цикл
-            updateQuestion()
+            updateQuestion(currentIndex)
         }
 
     }
-    private fun updateQuestion() {
-        val questionTextResId = questionBank[currentIndex].textResId
+    private fun updateQuestion(bankIndex: Int) {
+        val questionTextResId = questionBank[bankIndex].textResId
         questionTextView.setText(questionTextResId)
     }
     private fun checkAnswer(userAnswer: Boolean) {
-        val correctAnswer = questionBank[currentIndex].answer
+        val correctAnswer = questionBank[currentNextIndex].answer
         val messageResId = if (userAnswer == correctAnswer) {
             R.string.correct_toast
         } else {
