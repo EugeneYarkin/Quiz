@@ -25,25 +25,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var falseButton: Button
     private lateinit var nextButton: ImageButton
     private lateinit var questionTextView: TextView
-    private val questionBank = listOf(
-        Question(R.string.question_australia, true),
-        Question(R.string.question_oceans, true),
-        Question(R.string.question_mideast, false),
-        Question(R.string.question_africa, false),
-        Question(R.string.question_americas, true),
-        Question(R.string.question_asia, true))
-    private var currentIndex = 0
-    private var currentNextIndex = 0
-    private var currentBackIndex = questionBank.size
+
+    private val quizViewModel: QuizViewModel by lazy {
+        ViewModelProviders.of(this).get(QuizViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         Log.d(TAG, "onCreate(Bundle?) called")
         setContentView(R.layout.activity_main)
-
-        val provider: ViewModelProvider = ViewModelProviders.of(this)
-        val quizViewModel = provider.get(QuizViewModel::class.java)
-        Log.d(TAG, "Got a QuizViewModel: $quizViewModel")
 
 
         val toastCorrect = Toast.makeText(
@@ -63,14 +54,11 @@ class MainActivity : AppCompatActivity() {
         questionTextView = findViewById(R.id.question_text_view)
         updateQuestion()
         questionTextView.setOnClickListener {view: View ->
-            currentIndex = (currentIndex + 1) % questionBank.size //интересно реализован цикл
+            quizViewModel.moveToNext()
             updateQuestion()
         }
         prevButton.setOnClickListener {view: View ->
-            currentIndex = currentIndex - 1
-            if (currentIndex <0) {
-                currentIndex = questionBank.size-1
-            }
+            quizViewModel.moveToPrev()
             updateQuestion()
         }
         trueButton.setOnClickListener { view: View ->
@@ -80,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             checkAnswer(false)
         }
         nextButton.setOnClickListener {view: View ->
-            currentIndex = (currentIndex + 1) % questionBank.size //интересно реализован цикл
+            quizViewModel.moveToNext()
             updateQuestion()
         }
 
@@ -109,11 +97,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateQuestion() {
-        val questionTextResId = questionBank[currentIndex].textResId
+        val questionTextResId = quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
     }
     private fun checkAnswer(userAnswer: Boolean) {
-        val correctAnswer = questionBank[currentIndex].answer
+        val correctAnswer = quizViewModel.currentQuestionAnswer
         val messageResId = if (userAnswer == correctAnswer) {
             R.string.correct_toast
         } else {
